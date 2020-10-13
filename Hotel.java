@@ -4,6 +4,15 @@ public class Hotel {
 
 	private String hotelName;
 	private int rateForRegularCustomer;
+	public long TotalRate;
+
+	public long getTotalRate() {
+		return TotalRate;
+	}
+
+	public void setTotalRate(long totalRate) {
+		TotalRate = totalRate;
+	}
 
 	public Hotel(String hotelName, int rateForRegularCustomer) {
 		this.hotelName = hotelName;
