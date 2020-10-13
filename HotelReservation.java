@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 // Type of Customers
 enum Customer {
 	REGULAR, REWARD
@@ -24,7 +25,7 @@ public class HotelReservation {
 		hotelList.add(hotel);
 	}
 	// Find Cheapest Hotel for Customer
-	public String findCheapestHotel(String stayDates) throws Exception {
+	public String findCheapestHotel(String stayDates) {
 		int[] duration = findStayDuration(stayDates);
 		findTotalRates(duration);
 		int minRate = getHotelList().stream().mapToInt(Hotel::getTotalRate).min().orElse(0);
@@ -33,7 +34,7 @@ public class HotelReservation {
 		return output;		
 	}
 	// Find High Rating Hotel for Customer
-		public String findHighestRatingHotel(String stayDates) throws Exception {
+		public String findHighestRatingHotel(String stayDates) {
 			int[] duration = findStayDuration(stayDates);
 			findTotalRates(duration);
 			Hotel hotel = getHotelList().stream().max(Comparator.comparingInt(Hotel::getRating)).orElse(null);
@@ -48,14 +49,12 @@ public class HotelReservation {
 			getHotelList().stream().forEach(i -> i.setTotalRate(duration[0]*i.getWeekdaysRatesRewardCustomer()+duration[1]*i.getWeekendRatesRewardCustomer()));		
 	}
 	// Finding Numbers of days stay Based on Start and End Date
-	private int[] findStayDuration(String stayDates) throws ParseException {
+	private int[] findStayDuration(String stayDates) {
 		String [] date = stayDates.split(", ", 3);
 		Date startDate = null;
 		Date endDate = null;
 		SimpleDateFormat formatter = new SimpleDateFormat("ddMMMyyyy");
 		try {
-			if(!(date[0].equals("regular") || date[0].equals("reward")))
-				throw new Exception();
 			startDate = formatter.parse(date[1]);
 			endDate= formatter.parse(date[2]);
 		} catch (Exception e) {
@@ -94,23 +93,33 @@ public class HotelReservation {
 		this.hotelList = hotelList;
 	}
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		HotelReservation hotelReservation = new HotelReservation();
 		hotelReservation.addHotel("Lakewood", 3, 110, 90, 80, 80);
 		hotelReservation.addHotel("Bridgewood", 4, 150, 50, 110, 50);
 		hotelReservation.addHotel("Ridgewood", 5, 220, 150, 100, 40);
+		String input = "";
 		// Display Message
 		System.out.println("Welcome to Hotel Reservation Program");
-		System.out.println("Select your Customer Membership Reward/Regular");
-		String type = sc.next();
-		System.out.println("Enter Check-in Date in Date 'ddMMMyyy' Format");
-		String startDate = sc.next();
-		System.out.println("Enter Check-out Date in Date 'ddMMMyyy' Format");
-		String endDate = sc.next();
-		String input = type.toLowerCase() +", "+ startDate +", "+ endDate;
-		String output = hotelReservation.findCheapestHotel(input);
-	}
+		try {
+			System.out.println("Select your Customer Membership Reward/Regular");
+			String type = sc.next();
+			boolean typeRegex = type.matches("^regular|reward|Regular|Reward$");
+			System.out.println("Enter Check-in Date in Date 'ddMMMyyy' Format");
+			String startDate = sc.next();
+			boolean startRegex = startDate.matches("^([0][1-9]|[1-2][0-9]|[3][0-1])[A-Z][a-z]{2}[1-2][0-9]{3}$");
+			System.out.println("Enter Check-out Date in Date 'ddMMMyyy' Format");
+			String endDate = sc.next();
+			boolean endRegex = endDate.matches("^([0][1-9]|[1-2][0-9]|[3][0-1])[A-Z][a-z]{2}[1-2][0-9]{3}$");
+			if(!(typeRegex && startRegex && endRegex))
+					throw new InvalidUserInputException("Invalid Customer Type or Date Format. Try Again");
+			input = type.toLowerCase() +", "+ startDate +", "+ endDate;
+		} catch (InvalidUserInputException e) {
+			System.out.println(e.getMessage());
+		}
+		System.out.println(hotelReservation.findCheapestHotel(input));
+		}
 
 }
 
