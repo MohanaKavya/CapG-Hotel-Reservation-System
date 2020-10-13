@@ -14,8 +14,10 @@ public class HotelReservation {
 	private List<Hotel> hotelList = new ArrayList<Hotel>();
 	
 	// Adding new Hotel to Hotel Reservation Program
-	public void addHotel(String hotelName, int rating, int weekdaysRatesRegularCustomer, int weekendRatesRegularCustomer) {
-		Hotel hotel = new Hotel(hotelName, rating, weekdaysRatesRegularCustomer, weekendRatesRegularCustomer);
+	public void addHotel(String hotelName, int rating, int weekdaysRatesRegularCustomer, int weekendRatesRegularCustomer,
+						int weekdaysRatesRewardCustomer, int weekendRatesRewardCustomer) {
+		Hotel hotel = new Hotel(hotelName, rating, weekdaysRatesRegularCustomer, 
+								weekendRatesRegularCustomer, weekdaysRatesRewardCustomer, weekendRatesRewardCustomer);
 		hotelList.add(hotel);
 	}
 	// Find Cheapest Hotel for Customer
