@@ -23,12 +23,9 @@ public class HotelReservation {
 		int[] duration = findStayDuration(stayDates);
 		findTotalRates(duration);
 		int minRate = getHotelList().stream().mapToInt(Hotel::getTotalRate).min().orElse(0);
-		List<Hotel> hotels = getHotelList().stream().filter(i -> (i.TotalRate==minRate)).collect(Collectors.toList());
-		String output = "";
-		for(Hotel hotel : hotels) {
-			output+=hotel.getHotelName()+", ";
-		}
-		output+="Total Rates: $"+minRate;
+		Hotel hotel = getHotelList().stream().filter(i -> (i.TotalRate==minRate)).max(Comparator.comparingInt(Hotel::getRating)).orElse(null);
+		String output = hotel.getHotelName()+", Total Rates: $"+hotel.getTotalRate();
+		System.out.println(output);
 		return output;		
 	}
 	// Finding Total Rates for all Hotels for Stay Duration

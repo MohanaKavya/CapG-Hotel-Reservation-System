@@ -33,7 +33,7 @@ public class HotelReservationTest {
 		hotelReservation.addHotel("Bridgewood", 4, 150, 50);
 		hotelReservation.addHotel("Ridgewood", 5, 220, 150);
 		String output = hotelReservation.findCheapestHotel("11Sep2020, 12Sep2020");
-		boolean check = output.equals("Lakewood, Bridgewood, Total Rates: $200");
+		boolean check = output.equals("Bridgewood, Total Rates: $200");
 		assertTrue(check);
 	}
 }
