@@ -24,10 +24,19 @@ public class HotelReservation {
 		findTotalRates(duration);
 		int minRate = getHotelList().stream().mapToInt(Hotel::getTotalRate).min().orElse(0);
 		Hotel hotel = getHotelList().stream().filter(i -> (i.TotalRate==minRate)).max(Comparator.comparingInt(Hotel::getRating)).orElse(null);
-		String output = hotel.getHotelName()+", Total Rates: $"+hotel.getTotalRate();
+		String output = hotel.getHotelName()+", Rating: "+hotel.getRating()+" and Total Rates: $"+hotel.getTotalRate();
 		System.out.println(output);
 		return output;		
 	}
+	// Find High Rating Hotel for Customer
+		public String findHighestRatingHotel(String stayDates) {
+			int[] duration = findStayDuration(stayDates);
+			findTotalRates(duration);
+			Hotel hotel = getHotelList().stream().max(Comparator.comparingInt(Hotel::getRating)).orElse(null);
+			String output = hotel.getHotelName()+" & Total Rates: $"+hotel.getTotalRate();
+			System.out.println(output);
+			return output;		
+		}
 	// Finding Total Rates for all Hotels for Stay Duration
 	private void findTotalRates(int[] duration) {
 		getHotelList().stream().forEach(i -> i.setTotalRate(duration[0]*i.getWeekdaysRatesRegularCustomer()+duration[1]*i.getWeekendRatesRegularCustomer()));		
