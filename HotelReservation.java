@@ -11,8 +11,8 @@ public class HotelReservation {
 	private List<Hotel> hotelList = new ArrayList<Hotel>();
 	
 	// Adding new Hotel to Hotel Reservation Program
-	public void addHotel(String hotelName, int rateForRegularCustomer) {
-		Hotel hotel = new Hotel(hotelName, rateForRegularCustomer);
+	public void addHotel(String hotelName, int weekdaysRatesRegularCustomer, int weekendRatesRegularCustomer) {
+		Hotel hotel = new Hotel(hotelName, weekdaysRatesRegularCustomer, weekendRatesRegularCustomer);
 		hotelList.add(hotel);
 	}
 	// Find Cheapest Hotel for Customer
@@ -26,7 +26,7 @@ public class HotelReservation {
 	}
 	// Finding Total Rates for all Hotels for Stay Duration
 	private void findTotalRates(int duration) {
-		getHotelList().stream().forEach(i -> i.setTotalRate(duration*i.getRateForRegularCustomer()));		
+		getHotelList().stream().forEach(i -> i.setTotalRate(duration*i.getWeekdaysRatesRegularCustomer()));		
 	}
 	// Finding Numbers of days stay Based on Start and End Date
 	private int findStayDuration(String stayDates) {

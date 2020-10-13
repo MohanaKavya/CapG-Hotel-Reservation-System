@@ -3,7 +3,7 @@ package com.capgemini.assignment.hotelreservation;
 public class Hotel {
 
 	private String hotelName;
-	private int rateForRegularCustomer;
+	private int weekdaysRatesRegularCustomer, weekendRatesRegularCustomer;
 	public long TotalRate;
 
 	public long getTotalRate() {
@@ -14,9 +14,10 @@ public class Hotel {
 		TotalRate = totalRate;
 	}
 
-	public Hotel(String hotelName, int rateForRegularCustomer) {
+	public Hotel(String hotelName, int weekdaysRatesRegularCustomer, int weekendRatesRegularCustomer) {
 		this.hotelName = hotelName;
-		this.rateForRegularCustomer = rateForRegularCustomer;
+		this.weekdaysRatesRegularCustomer = weekdaysRatesRegularCustomer;
+		this.weekendRatesRegularCustomer = weekendRatesRegularCustomer;
 	}
 
 	public String getHotelName() {
@@ -27,12 +28,20 @@ public class Hotel {
 		this.hotelName = hotelName;
 	}
 
-	public int getRateForRegularCustomer() {
-		return rateForRegularCustomer;
+	public int getWeekdaysRatesRegularCustomer() {
+		return weekdaysRatesRegularCustomer;
 	}
 
-	public void setRateForRegularCustomer(int rateForRegularCustomer) {
-		this.rateForRegularCustomer = rateForRegularCustomer;
+	public void setWeekdaysRatesRegularCustomer(int weekdaysRatesRegularCustomer) {
+		this.weekdaysRatesRegularCustomer = weekdaysRatesRegularCustomer;
 	}
 
+	public int getWeekendRatesRegularCustomer() {
+		return weekendRatesRegularCustomer;
+	}
+
+	public void setWeekendRatesRegularCustomer(int weekendRatesRegularCustomer) {
+		this.weekendRatesRegularCustomer = weekendRatesRegularCustomer;
+	}
+	
 }
