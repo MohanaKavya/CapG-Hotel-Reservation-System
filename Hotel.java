@@ -4,13 +4,13 @@ public class Hotel {
 
 	private String hotelName;
 	private int weekdaysRatesRegularCustomer, weekendRatesRegularCustomer;
-	public long TotalRate;
+	public int TotalRate;
 
-	public long getTotalRate() {
+	public int getTotalRate() {
 		return TotalRate;
 	}
 
-	public void setTotalRate(long totalRate) {
+	public void setTotalRate(int totalRate) {
 		TotalRate = totalRate;
 	}
 

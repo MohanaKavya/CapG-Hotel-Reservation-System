@@ -3,9 +3,12 @@ package com.capgemini.assignment.hotelreservation;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.OptionalInt;
+import java.util.stream.Collectors;
 
 public class HotelReservation {
 	private List<Hotel> hotelList = new ArrayList<Hotel>();
@@ -17,19 +20,24 @@ public class HotelReservation {
 	}
 	// Find Cheapest Hotel for Customer
 	public String findCheapestHotel(String stayDates) {
-		int duration = findStayDuration(stayDates);
+		int[] duration = findStayDuration(stayDates);
 		findTotalRates(duration);
-		Hotel hotel = getHotelList().stream().sorted(Comparator.comparing(Hotel::getTotalRate)).findFirst().orElse(null);
-		String output = hotel.getHotelName()+", Total Rates: $"+hotel.getTotalRate();
+		int minRate = getHotelList().stream().mapToInt(Hotel::getTotalRate).min().orElse(0);
+		List<Hotel> hotels = getHotelList().stream().filter(i -> (i.TotalRate==minRate)).collect(Collectors.toList());
+		String output = "";
+		for(Hotel hotel : hotels) {
+			output+=hotel.getHotelName()+", ";
+		}
+		output+="Total Rates: $"+minRate;
 		System.out.println(output);
 		return output;		
 	}
 	// Finding Total Rates for all Hotels for Stay Duration
-	private void findTotalRates(int duration) {
-		getHotelList().stream().forEach(i -> i.setTotalRate(duration*i.getWeekdaysRatesRegularCustomer()));		
+	private void findTotalRates(int[] duration) {
+		getHotelList().stream().forEach(i -> i.setTotalRate(duration[0]*i.getWeekdaysRatesRegularCustomer()+duration[1]*i.getWeekendRatesRegularCustomer()));		
 	}
 	// Finding Numbers of days stay Based on Start and End Date
-	private int findStayDuration(String stayDates) {
+	private int[] findStayDuration(String stayDates) {
 		String [] date = stayDates.split(", ", 2);
 		Date startDate = null;
 		Date endDate = null;
@@ -40,7 +48,21 @@ public class HotelReservation {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		int duration = (endDate.getDate() - startDate.getDate())+1;
+		Calendar cal = Calendar.getInstance();
+		int[] duration = new int[2];
+		long diff = ((endDate.getTime()-startDate.getTime())/1000/60/60/24)+1;
+		Date start = startDate;
+		while(diff>0) {
+			if(start.getDay()!=0 && start.getDay()!=6)
+				duration[0]++;
+			else
+				duration[1]++;
+			
+	        cal.setTime(start);
+	        cal.add(Calendar.DATE, 1); 
+	        start = cal.getTime();	
+	        diff--;
+		}
 		return duration;
 	}
 	// Getter & Setters

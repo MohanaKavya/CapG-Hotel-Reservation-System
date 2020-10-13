@@ -10,7 +10,7 @@ public class HotelReservationTest {
 	public void addHotelForRegularCustomerTest() {
 		HotelReservation hotelReservation = new HotelReservation();
 		hotelReservation.addHotel("Lakewood", 110, 90);
-		hotelReservation.addHotel("Bridgewood", 160, 90);
+		hotelReservation.addHotel("Bridgewood", 150, 50);
 		hotelReservation.addHotel("Ridgewood", 220, 150);
 		int size = hotelReservation.getHotelList().size();
 		assertEquals(3, size);
@@ -18,13 +18,23 @@ public class HotelReservationTest {
 	}
 	
 	@Test
-	public void findCheapestHotelTest() {
+	public void findCheapestHotelForRegCustomersforWeekdaysRatesTest() {
 		HotelReservation hotelReservation = new HotelReservation();
 		hotelReservation.addHotel("Lakewood", 110, 90);
-		hotelReservation.addHotel("Bridgewood", 160, 60);
+		hotelReservation.addHotel("Bridgewood", 150, 50);
 		hotelReservation.addHotel("Ridgewood", 220, 150);
 		String output = hotelReservation.findCheapestHotel("10Sep2020, 11Sep2020");
 		boolean check = output.equals("Lakewood, Total Rates: $220");
+		assertTrue(check);
+	}
+	@Test
+	public void findCheapestHotelForRegCustomersForBothWeekdaysAndWeekendRatesTest() {
+		HotelReservation hotelReservation = new HotelReservation();
+		hotelReservation.addHotel("Lakewood", 110, 90);
+		hotelReservation.addHotel("Bridgewood", 150, 50);
+		hotelReservation.addHotel("Ridgewood", 220, 150);
+		String output = hotelReservation.findCheapestHotel("11Sep2020, 12Sep2020");
+		boolean check = output.equals("Lakewood, Bridgewood, Total Rates: $200");
 		assertTrue(check);
 	}
 }
