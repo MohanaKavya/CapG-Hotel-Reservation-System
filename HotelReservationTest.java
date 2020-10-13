@@ -17,23 +17,13 @@ public class HotelReservationTest {
 	}
 	
 	@Test
-	public void findCheapestHotelForRegCustomersForBothWeekdaysAndWeekendRatesTest() {
+	public void findCheapestAndHighestRatingHotelForRewardCustomerTest() throws Exception {
 		HotelReservation hotelReservation = new HotelReservation();
 		hotelReservation.addHotel("Lakewood", 3, 110, 90, 80, 80);
 		hotelReservation.addHotel("Bridgewood", 4, 150, 50, 110, 50);
 		hotelReservation.addHotel("Ridgewood", 5, 220, 150, 100, 40);
-		String output = hotelReservation.findCheapestHotel("11Sep2020, 12Sep2020");
-		boolean check = output.equals("Bridgewood, Rating: 4 and Total Rates: $200");
-		assertTrue(check);
-	}
-	@Test
-	public void findHighestRatingHotelForRegCustomersTest() {
-		HotelReservation hotelReservation = new HotelReservation();
-		hotelReservation.addHotel("Lakewood", 3, 110, 90, 80, 80);
-		hotelReservation.addHotel("Bridgewood", 4, 150, 50, 110, 50);
-		hotelReservation.addHotel("Ridgewood", 5, 220, 150, 100, 40);
-		String output = hotelReservation.findHighestRatingHotel("11Sep2020, 12Sep2020");
-		boolean check = output.equals("Ridgewood & Total Rates: $370");
+		String output = hotelReservation.findCheapestHotel("reward, 11Sep2020, 12Sep2020");
+		boolean check = output.equals("Ridgewood, Rating: 5 and Total Rates: $140");
 		assertTrue(check);
 	}
 }
